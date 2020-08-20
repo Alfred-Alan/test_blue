@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 
 bk_app_code='test-blue'
 bk_app_secret= 'fbb41929-84aa-481b-be62-34020549870f'
-bk_token='-k3kE0rn8G4_-c7-CkAo1TiCp6b3ify6RB55rvHimro'
+bk_token='q6tEw9T5Jp6Q3et23xNhhtHWbzMFCklVSYtF0AYcdCM'
 
 
 def get_biz_info():
