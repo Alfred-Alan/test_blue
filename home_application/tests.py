@@ -14,3 +14,13 @@ specific language governing permissions and limitations under the License.
 # from django.test import TestCase
 
 # Create your tests here.
+for i in range(1,10):
+    for j in range(1,i+1):
+        print("{} * {} = {}\t".format(j,i,i*j),end='')
+    print('\n')
+
+
+for i in range(9,0,-1):
+    for j in range(i,0,-1):
+        print("{} * {} = {}\t".format(j, i, i * j), end='')
+    print('\n')

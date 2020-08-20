@@ -19,4 +19,8 @@ urlpatterns = (
     url(r'^$', views.home),
     url(r'^dev-guide/$', views.dev_guide),
     url(r'^contact/$', views.contact),
+    url(r'^hello$', views.hello),
+    url(r'^task/$', views.task),
+    url(r'^record/$', views.record),
+    url(r'^api/get_host/$', views.get_host),
 )
