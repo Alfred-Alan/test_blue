@@ -38,10 +38,10 @@ DATABASES.update(
     {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': '',  # 数据库名
-            'USER': '',  # 数据库用户
-            'PASSWORD': '',  # 数据库密码
-            'HOST': '',  # 数据库主机
+            'NAME': 'test_blue',  # 数据库名
+            'USER': 'root3',  # 数据库用户
+            'PASSWORD': '123456',  # 数据库密码
+            'HOST': '39.107.99.155',  # 数据库主机
             'PORT': '3306',  # 数据库端口
         },
     }
