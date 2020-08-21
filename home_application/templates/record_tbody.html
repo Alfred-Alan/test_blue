@@ -1,0 +1,15 @@
+ {% for doinfo in doinfos %}
+    <tr>
+        <td style="width: 70px;">{{ doinfo.businessname }}</td>
+        <td style="width: 15%;">{{doinfo.username}}</td>
+        <td style="width: 15%;">{{ doinfo.script}}</td>
+        <td style="width: 15%;">{{ doinfo.starttime }}</td>
+        <td style="width: 15%;">{{ doinfo.ipcount }}</td>
+        <td style="width: 15%;">{{ doinfo.status }}</td>
+        <td style="width: 15%;">{{ doinfo.scriptcontent }}</td>
+        <td style="width: 15%;">{{ doinfo.details }}</td>
+        <td style="width: 15%;">
+            <button class="btn btn-xs btn-primary" title="查看" id="plugin4_demo11"> 查看</button>
+        </td>
+    </tr>
+{% endfor %}

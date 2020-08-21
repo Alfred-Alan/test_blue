@@ -10,6 +10,9 @@
     <!-- Bootstrap css -->
     <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/bootstrap-3.3.4/css/bootstrap.min.css"
           rel="stylesheet">
+    <!--artdialog-->
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/bk/css/bk.css" rel="stylesheet">
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/artDialog-6.0.4/css/ui-dialog.css" rel="stylesheet">
     <!-- kendo ui css -->
     <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/kendoui-2015.2.624/styles/kendo.common.min.css"
           rel="stylesheet">
@@ -31,176 +34,205 @@
     <script src="https://magicbox.bk.tencent.com/static_api/v3/bk/js/bk.js"></script>
     <!-- 数据埋点统计 -->
     <script src="http://magicbox.bk.tencent.com/static_api/analysis.js"></script>
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/artDialog-6.0.4/dist/dialog-min.js"></script>
     <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
     <!--[if lt IE 9]><script src="https://magicbox.bk.tencent.com/static_api/v3/assets/js/html5shiv.min.js"></script><script src="https://magicbox.bk.tencent.com/static_api/v3/assets/js/respond.min.js"></script>
     <![endif]-->
 </head>
 
 <body class="bg-white" data-bg-color="bg-white">
-<div class="king-page-box">
-    <div class="king-layout1-header">
-        <nav class="">
-            <div style="overflow:hidden; z-index: inherit;" class="navbar king-horizontal-nav1  f14">
-                <div class="navbar-container">
-                    <div class="navbar-header pull-left">
-                        <a class="navbar-brand" href="{{SITE_URL}}">
-                            <img src="https://magicbox.bk.tencent.com/static_api/v3/bk/images/logo.png" class="logo">
-                        </a>
-                    </div>
-                    <ul class="nav navbar-nav pull-left m0">
-                        <li class="active"><a href="{{ SITE_URL }}task/">执行任务</a></li>
-                        <li><a href="{{ SITE_URL }}record/">执行记录</a></li>
-                    </ul>
-                    <div class="navbar-header pull-right">
-                        <ul class="nav">
-                            <li class="user-info">
-                                <a href="javascript:;">
-                                    <img class="img-rounded"
-                                         src="https://magicbox.bk.tencent.com/static_api/v3/components/horizontal_nav1/images/avatar.png">
-                                    <span>admin</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </div>
-    <div class="king-layout2-main mt15" style="width:960px;">
-        <form class="form-horizontal">
-            <div style="float: left;width: 450px;">
-                <div class="form-group clearfix ">
-                    <label class="col-sm-3 control-label bk-lh30 pt0">选择业务：</label>
-                    <div class="col-sm-9">
-                        <select name="biz" id="" class="form-control bk-valign-top ele">
-                            {% for biz_name,biz_id in info %}
-                                <option value={{biz_id}}>{{ biz_name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div style="float: left;width: 450px;">
-                <div class="form-group clearfix " >
-                    <label class="col-sm-3 control-label bk-lh30 pt0">选择脚本：</label>
-                    <div class="col-sm-9">
-                        <select name="script" id="script" class="form-control bk-valign-top">
-                            {% for task in tasks %}
-                                <option value={{ task.id }}>{{task.scriptname}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div style="margin-left: 200px;">
-                <div class="form-group clearfix">
-                    <div class="col-sm-9 col-sm-offset-3">
-                        <button type="button" class="king-btn mr10  king-success">提交</button>
-                        <button type="button" class="king-btn king-default ">取消</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-    <div style="width:960px;margin: 0 auto;">
-        <div class="panel panel-default pannel-overflow panel-tables table7_demo">
-        <div class="panel-heading"><i class="fa fa-list-ul"></i> 变量列表
-        </div>
-        <div class="panel-body panel-search-body">
-            <a class="king-btn king-radius king-primary" title="添加变量">添加变量</a>
-            <a class="king-btn king-radius king-default" title="数据导入">数据导入</a>
-            <a class="king-btn king-radius king-default" title="数据导出">数据导出</a>
-        </div>
-        <div class="panel-content">
-            <table class="table table-header-bg table-hover mb0" id="table_demo2">
-                <thead>
-                <tr>
-                    <th style="width: 25px">
-                        <input type="checkbox" name="checkall" value="">
-                    </th>
-                    <th style="width: 100px">ID</th>
-                    <th style="width:25%">IP</th>
-                    <th style="width:25%">主机名</th>
-                    <th style="width:15%">操作系统</th>
-                    <th>操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for hosts in data %}
-                    <tr>
-                        <td>
-                            <input type="checkbox" value={{ hosts.ip }}>
-                        </td>
-                        <td>{{ hosts.host_id }}</td>
-                        <td>{{ hosts.ip }}</td>
-                        <td>{{ hosts.name }}</td>
-                        <td>{{ hosts.os }}</td>
-                        <td>
-                            <button class="btn btn-xs btn-danger" title="删除">
-                                <i class="glyphicon glyphicon-remove"></i>
-                            </button>
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-                <tfoot>
-                <tr>
-                    <td colspan="6">
-                        <div class="pull-left">
-                            <a class="king-btn king-radius king-danger ml10" id="deleteAll" title="删除">删除</a>
+    <div class="king-page-box">
+        <div class="king-layout1-header">
+            <nav class="">
+                <div style="overflow:hidden; z-index: inherit;" class="navbar king-horizontal-nav1  f14">
+                    <div class="navbar-container">
+                        <div class="navbar-header pull-left">
+                            <a class="navbar-brand" href="{{SITE_URL}}">
+                                <img src="https://magicbox.bk.tencent.com/static_api/v3/bk/images/logo.png" class="logo">
+                            </a>
                         </div>
-                    </td>
-                </tr>
-                </tfoot>
-            </table>
+                        <ul class="nav navbar-nav pull-left m0">
+                            <li class="active"><a href="{{ SITE_URL }}task/">执行任务</a></li>
+                            <li><a href="{{ SITE_URL }}record/">执行记录</a></li>
+                        </ul>
+                        <div class="navbar-header pull-right">
+                            <ul class="nav">
+                                <li class="user-info">
+                                    <a href="javascript:;">
+                                        <img class="img-rounded"
+                                             src="https://magicbox.bk.tencent.com/static_api/v3/components/horizontal_nav1/images/avatar.png">
+                                        <span>admin</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
         </div>
-        <script type="text/javascript">
-            $(".ele").change(function () {
-                $.ajax({
-                    url: '{{ SITE_URL }}api/get_host/',
-                    type: 'GET',
-                    data:{
-                        'biz_id':$('.ele').val(),
-                        'csrfmiddlewaretoken':"{{ csrf_token }}"
-                    },
-                    success: function(res){
-                        if(res.result){
-                            $('#table_demo2 tbody').html(res.data)
-                        }else{
-                            alert(res.message)
+        <div class="king-layout2-main mt15" style="width:960px;">
+            <form class="form-horizontal">
+                <div style="float: left;width: 450px;">
+                    <div class="form-group clearfix ">
+                        <label class="col-sm-3 control-label bk-lh30 pt0">选择业务：</label>
+                        <div class="col-sm-9">
+                            <select name="biz" id="" class="form-control bk-valign-top ele">
+                                {% for biz_name,biz_id in info %}
+                                    <option value={{biz_id}}>{{ biz_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div style="float: left;width: 450px;">
+                    <div class="form-group clearfix " >
+                        <label class="col-sm-3 control-label bk-lh30 pt0">选择脚本：</label>
+                        <div class="col-sm-9">
+                            <select name="script" id="script" class="form-control bk-valign-top ele1">
+                                {% for task in tasks %}
+                                    <option value={{ task.id }}>{{task.scriptname}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div style="width:960px;margin: 0 auto;">
+            <div class="panel panel-default pannel-overflow panel-tables table7_demo">
+            <div class="panel-content">
+                <table class="table table-header-bg table-hover mb0" id="table_demo2">
+                    <thead>
+                    <tr>
+                        <th style="width: 25px">
+                            <input type="checkbox" name="checkall" value="">
+                        </th>
+                        <th style="width: 100px">ID</th>
+                        <th style="width:25%">IP</th>
+                        <th style="width:25%">主机名</th>
+                        <th style="width:15%">操作系统</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for hosts in data %}
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="check_host" name="check_host" value={{ hosts.ip }}>
+                            </td>
+                            <td>{{ hosts.host_id }}</td>
+                            <td>{{ hosts.ip }}</td>
+                            <td>{{ hosts.name }}</td>
+                            <td>{{ hosts.os }}</td>
+                            <td>
+                                <button class="btn btn-xs btn-danger" title="删除">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            </div>
+        </div>
+        <div style="margin-left: 400px;">
+            <div class="form-group clearfix">
+                <div class="col-sm-9 col-sm-offset-3">
+                    <button type="button" class="king-btn mr10  king-success">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+                    ips=[];
+                    $(".ele").change(function () {
+                        ips=[];
+                        $.ajax({
+                            url: '{{ SITE_URL }}api/get_host/',
+                            type: 'GET',
+                            data:{
+                                'biz_id':$('.ele').val(),
+                                'csrfmiddlewaretoken':"{{ csrf_token }}"
+                            },
+                            success: function(res){
+                                if(res.result){
+                                    $('#table_demo2 tbody').html(res.data)
+                                }else{
+                                    alert(res.message)
+                                }
+                            }
+                        })
+                    });
+                    $("input:checkbox:checked").each(function (index,element) {
+                        console.log(index)
+                    });
+                    function get_checkbox_value() {
+                        var CheckboxList=$("input[name='check_host']");
+                        for(i=0;i<CheckboxList.length;i++) {
+                            if (CheckboxList[i].checked) {
+                                ips.push(CheckboxList[i].value);
+                            }
                         }
                     }
-                })
-            });
-
-            $('#table_demo2').find('input[name="checkall"]').click(function () {
-                var checked = $(this).prop('checked');
-                $('#table_demo2>tbody input').prop('checked', checked);
-            });
-            $('#table_demo2').find(':checkbox').on('click', function () {
-                if (!this.checked) {
-                    $('#table_demo2').find('input[name="checkall"]').prop('checked', false);
-                }
-            });
-            $('#table_demo2').find('.glyphicon-remove').parent('button').click(function () {
-                if (confirm('确定要删除？')) {
-                    $(this).closest('tr').remove();
-                }
-            });
-            $('#deleteAll').click(function (event) {
-                var records = $('#table_demo2>tbody input:checked').closest('tr');
-                if (!records.length) {
-                    alert('请选择要删除的记录！');
-                    return false;
-                }
-                if (confirm('确定要删除？')) {
-                    records.remove();
-                }
-            });
-        </script>
-    </div>
-    </div>
-</div>
+                    $('.king-success').click(function () {
+                        get_checkbox_value();
+                        console.log({{ SEIT_URL }});
+                        $.ajax({
+                            url:'{{ SITE_URL }}api/execute/',
+                            type:'POST',
+                            data:{
+                                "biz_id":$('.ele').val(),
+                                "script_id":$('.ele1').val(),
+                                "ip_id":ips,
+                                'csrfmiddlewaretoken':"{{ csrf_token }}"
+                            },
+                            success:function (response) {
+                                console.log(response['result']);
+                                if(response['result']){
+                                    var d = dialog({
+                                        width: 260,
+                                        title: '提示',
+                                        ok: function() {
+                                            window.location.href="{{ SITE_URL }}record/"
+                                        },
+                                        okValue: '查看任务结果',
+                                        content: '<div class="king-notice-box king-notice-success"><p class="king-notice-text">用户提交成功！</p></div>',
+                                        cancelValue: '继续执行任务',
+                                        cancel: function() {
+                                            window.location.reload()
+                                        }
+                                    });
+                                    d.show();
+                                }else{
+                                    var d = dialog({
+                                        width: 260,
+                                        title: '提示',
+                                        cancel: function (){},
+                                        ok: function() {},
+                                        okValue: '确定',
+                                        content: '<div class="king-notice-box king-notice-fail"><p class="king-notice-text">任务提交失败！</p></div>',
+                                        cancelValue: '取消',
+                                        cancel: function() {
+                                            // do something
+                                        }
+                                    });
+                                    d.show();
+                                }
+                            }
+                        })
+                    });
+                $('#table_demo2').find('input[name="checkall"]').click(function () {
+                    var checked = $(this).prop('checked');
+                    $('#table_demo2>tbody input').prop('checked', checked);
+                });
+                $('#table_demo2').find(':checkbox').on('click', function () {
+                    if (!this.checked) {
+                        $('#table_demo2').find('input[name="checkall"]').prop('checked', false);
+                    }
+                });
+            </script>
 </body>
 
 </html>

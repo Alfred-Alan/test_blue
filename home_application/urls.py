@@ -13,7 +13,7 @@ specific language governing permissions and limitations under the License.
 
 from django.conf.urls import url
 
-from . import views
+from home_application import views
 
 urlpatterns = (
     url(r'^$', views.home),
@@ -23,4 +23,6 @@ urlpatterns = (
     url(r'^task/$', views.task),
     url(r'^record/$', views.record),
     url(r'^api/get_host/$', views.get_host),
+    url(r'^api/execute/$', views.execute_script),
+    url(r'^api/inquiry/$', views.inquiry),
 )
