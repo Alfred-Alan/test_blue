@@ -59,7 +59,6 @@ class Doinfo(models.Model):
             'ipcount':self.ipcount,
             'jobid':self.jobid,
             'status':self.status,
-
         }
 
 

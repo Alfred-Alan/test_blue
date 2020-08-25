@@ -12,7 +12,7 @@ specific language governing permissions and limitations under the License.
 """
 import base64
 import copy
-import datetime
+from datetime import datetime
 
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 
 bk_app_code='test-blue'
 bk_app_secret= 'fbb41929-84aa-481b-be62-34020549870f'
-bk_token='q6tEw9T5Jp6Q3et23xNhhtHWbzMFCklVSYtF0AYcdCM'
+bk_token='NhzgA1B6UJRdhWBl1m3qtAzs9UERVyyNwNV2IAJeyJ8'
 from .celery_tasks import  async_status
 
 # 查询业务
@@ -181,26 +181,24 @@ def record(request):
     return render(request,'record.html',data)
 
 def inquiry(request):
+    biz_id = request.POST.get('biz_id')
+    username = request.POST.get('username')
+    script_id = request.POST.get('script')
+    time = request.POST.get('time')  # "2020/03/27 - 2020/03/27"
+
     try:
-        biz_id = request.POST.get('biz_id')
-        username = request.POST.get('username')
-        script_id = request.POST.get('script_id')
-        time = request.POST.get('time')   #"2020/03/27 - 2020/03/27"
         doinfo = Doinfo.objects.all()
         doinfo = doinfo.filter(businessname=int(biz_id)).filter(username=username).filter(script_id=int(script_id))
         starttime,endtime= time.split('-')
         starttime=starttime.strip().replace('/','-')+' 00:00:00'
         endtime = endtime.strip().replace('/','-')+' 23:59:00'
         start_time = datetime.strptime(starttime,'%Y-%m-%d %H:%M:%S')
-        endt_ime = datetime.strptime(endtime,'%Y-%m-%d %H:%M:%S')
-
-        doinfo = doinfo.filter(starttime__range=(start_time,endt_ime))
+        end_time = datetime.strptime(endtime,'%Y-%m-%d %H:%M:%S')
+        doinfo = doinfo.filter(starttime__range=(start_time,end_time))
         data=[ info.to_dirct() for info in doinfo]
-
         table_data = render_to_string('record_tbody.html',{'doinfos':data})
         result= True
         message = 'success'
-
     except Exception as err:
         table_data=[]
         result = False

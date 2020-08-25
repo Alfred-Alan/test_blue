@@ -12,9 +12,10 @@ specific language governing permissions and limitations under the License.
 """
 
 from django.contrib import admin
-from .models import SelectScript
+from .models import SelectScript,Doinfo
 
 # Register your models here.
 
 admin.site.register(SelectScript)
+admin.site.register(Doinfo)
 
